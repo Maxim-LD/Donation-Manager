@@ -1,13 +1,17 @@
  
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const dbConnection = require('./utilities/db')
 const dotenv = require('dotenv').config()
 const userRoute = require('./routes/userRoute')
 
 
-const app = express() 
+const app = express()
+
 app.use(express.json())
+app.use(cors())
+
 
 
 const PORT = process.env.PORT || 8002

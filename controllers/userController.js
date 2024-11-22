@@ -6,7 +6,7 @@ const { registrationEmail } = require('../utilities/emailService')
 
 const createUser = async (req, res) => {
 
-    const { firstName, lastName, email, password, designation} = req.body
+    const { firstName, lastName, email, password, designation } = req.body
 
     try {
 
@@ -22,13 +22,21 @@ const createUser = async (req, res) => {
                 })
             }
             
+            //for organizer
             const generateId = () => {
                 const timestamp = Date.now().toString();
                 const randomString = Math.random().toString(36).substring(2, 8);
                 return `ORG-${timestamp}-${randomString}`;
                 }
             
-            const uniqueId = designation.toLowerCase() === 'organizer' ? generateId() : designation;
+            //for donor
+            const generateuserId = () => {
+                const timestamp = Date.now().toString();
+                const randomString = Math.random().toString(36).substring(2, 8);
+                return `USR-${timestamp}-${randomString}`;
+                }
+
+            const uniqueId = designation.toLowerCase() === 'organizer' ? generateId() : generateuserId();
 
             const hashedPassword = await bcrypt.hash(password, 12)
 
@@ -69,7 +77,8 @@ const userList = async (req, res)=>{
         return res.status(200).json({
 
             count: users.length,
-            message: "Successul!", users
+            message: "Success!", 
+            users
         })
     } catch (error) {
         

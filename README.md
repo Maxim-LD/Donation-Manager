@@ -1,1 +1,1 @@
-This is a brief detail about the project
+A donation platform that connects donors with causes and enables secure online donations. Currently focused on implementing user authentication and payment processing features.
