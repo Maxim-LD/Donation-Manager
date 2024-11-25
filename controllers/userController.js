@@ -13,7 +13,6 @@ const createUser = async (req, res) => {
             if (!firstName || !lastName || !email || !password || !designation) {
                 return res.status(400).json({ error: 'All fields are required' })
             }
-
             const checkUser = await Users.findOne({email})
 
             if(checkUser){
