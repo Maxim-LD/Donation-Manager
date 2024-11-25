@@ -34,11 +34,11 @@ const registrationEmail = async (email) => {
                     <br>
                     <h2>Check below for you details</h2>
                     <br>
-                    <h3>Fullname: ${name}</h3>
-                    <h3>Designation: ${checkUser.designation}</h3>
-                    <h3>UniqueId: ${checkUser.uniqueId}</h3>
-                    <h3>Date: ${formattedDate}
-                    <h3>Time: ${formattedTime}
+                    <h4>Fullname: ${name}</h4>
+                    <h4>Designation: ${checkUser.designation}</h4>
+                    <h4>UniqueId: ${checkUser.uniqueId}</h4>
+                    <h4>Date: ${formattedDate}</h4>
+                    <h4>Time: ${formattedTime}</h4>
                     <br>
                     <br>
                     
