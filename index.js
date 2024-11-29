@@ -1,18 +1,16 @@
  
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors')
+// const cors = require('cors')
 const dbConnection = require('./utilities/db')
 const dotenv = require('dotenv').config()
-const userRoute = require('./routes/userRoute')
+const authRoutes = require('./routes/authRoutes')
 
 
 const app = express()
 
 app.use(express.json())
-app.use(cors())
-
-
+// app.use(cors())
 
 const PORT = process.env.PORT || 8002
 
@@ -20,7 +18,6 @@ const PORT = process.env.PORT || 8002
 app.listen(PORT, ()=>{
     console.log(`Connected via port ${PORT}`)
 })
-
 dbConnection()
 
 //response handler --- for website requests (the homepage route)
@@ -31,7 +28,7 @@ app.get("/", (req, res)=>{
     })
 })
 
-app.use("/api", userRoute)
+app.use("/api", authRoutes)
 
 
 app.use((req, res)=>{

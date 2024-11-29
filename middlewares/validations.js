@@ -1,11 +1,6 @@
 const Users = require('../models/userSchema')
+const validator = require('validator')
 
-const validEmail = (email)=>{
-
-    const checkEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-    return checkEmail.test(String(email).toLowerCase())
-}
 
 const validPassword = (password)=>{
 
@@ -22,39 +17,75 @@ const validPassword = (password)=>{
 
 const validateRegistration = async (req, res, next)=>{
 
-    const { firstName, lastName, email, designation, password} = req.body
+    const { firstName, lastName, email, role, password} = req.body
 
     const errors = []
 
-    if(!(firstName && lastName)){
-        errors.push("Please enter your firstname and lastname!")
-    }
+    try {
+        if(!(firstName && lastName)){
+            errors.push("Please enter your firstname and lastname!")
+        }
 
-    if(!email){
+        if(!email){
+            errors.push("Please enter your email!")
+        }else if(!validator.isEmail(email)){
+            errors.push("Incorrect email format!")
+        }
+
+        if(!role){
+            errors.push("Indicate your role!")
+        }
+
+        if(!password){
+            errors.push("Enter a password!")
+        } else if(!validPassword(password)){
+            errors.push("Incorrect password format!")
+        }
+
+        if(errors.length > 0){
+            return res.status(400).json({message: errors})
+        }
+
+        next()
+
+    } catch (error) {
+        console.log(errors)
+    }
+}
+    
+
+const validateLogin = async (req, res, next)=>{
+
+    const { email, password } = req.body
+
+    const errors = []
+
+    try {
+        if (!email) {
         errors.push("Please enter your email!")
-    }else if(!validEmail(email)){
+        } else if (!validator.isEmail(email)) {
         errors.push("Incorrect email format!")
-    }
+        }
 
-    if(!designation){
-        errors.push("Indicate your designation!")
-    }
+        if(!password) {
+            errors.push("Please enter password!")
+        }
 
-    if(!password){
-        errors.push("Enter a password!")
-    } else if(!validPassword(password)){
-        errors.push("Incorrect password format!")
-    }
+        if(errors.length > 0){
+            return res.status(400).json({
+                message: errors
+            })
+        }
 
-    if(errors.length > 0){
-        return res.status(400).json({message: errors})
+        next()
+    } catch (error) {
+        console.log(error)
     }
-
-    next()
 }
 
+
 module.exports = {
-    validEmail,
     validPassword,
-    validateRegistration
+    validateRegistration,
+    validateLogin
 }

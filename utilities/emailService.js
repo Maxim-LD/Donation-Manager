@@ -35,7 +35,7 @@ const registrationEmail = async (email) => {
                     <h2>Check below for you details</h2>
                     <br>
                     <h4>Fullname: ${name}</h4>
-                    <h4>Designation: ${checkUser.designation}</h4>
+                    <h4>Role: ${checkUser.role}</h4>
                     <h4>UniqueId: ${checkUser.uniqueId}</h4>
                     <h4>Date: ${formattedDate}</h4>
                     <h4>Time: ${formattedTime}</h4>
