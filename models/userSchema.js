@@ -7,9 +7,8 @@ const userSchema = new mongoose.Schema({
     email: {type: String, require: true, lowercase: true },
     password: {type: String, require: true},
     role: {type: String, require: true},
-    uniqueId: { type: String, default: null }
-}, {
-    timestamps: true
+    uniqueId: { type: String, default: null },
+    createdAt: { type: Date, default: Date.now }
 })
 
 const Users = new mongoose.model("users", userSchema)

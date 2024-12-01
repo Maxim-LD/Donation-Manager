@@ -1,4 +1,5 @@
-const Users = require('../models/userSchema')
+const Users = require("../models/userSchema")
+const Causes = require("../models/causeSchema")
 const validator = require('validator')
 
 
@@ -83,9 +84,43 @@ const validateLogin = async (req, res, next)=>{
     }
 }
 
+const validateCauseCreation = async (req, res, next)=> {
+
+    const { uniqueId } = req.body
+    const organizer = await Users.findOne({ uniqueId, role: "organizer" })
+
+
+    const errors = []
+    try {
+
+         if (!uniqueId) {
+           return res.status(400).json({
+            message: "uniqueId is required!"
+           })
+         } 
+        
+          if (!organizer) {
+            return res.status(403).json({
+              message: "Forbidden request, the uniqueId provided does not belong to any organizer!",
+            })
+          }
+
+          if (errors.length > 0) {
+            return res.status(400).json({
+              message: errors,
+            })
+          }
+
+        next()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 module.exports = {
     validPassword,
     validateRegistration,
-    validateLogin
+    validateLogin,
+    validateCauseCreation
 }

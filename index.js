@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 // const cors = require('cors')
 const dbConnection = require('./utilities/db')
 const dotenv = require('dotenv').config()
-const authRoutes = require('./routes/authRoutes')
+const authRoutes = require("./routes/authRoutes")
+const authRoutes = require("./routes/causeRoutes")
 
 
 const app = express()
@@ -29,6 +30,7 @@ app.get("/", (req, res)=>{
 })
 
 app.use("/api", authRoutes)
+app.use("/api", causeRoutes)
 
 
 app.use((req, res)=>{

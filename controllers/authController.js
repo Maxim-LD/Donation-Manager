@@ -15,29 +15,29 @@ const createUser = async (req, res) => {
     if (checkUser) {
       return res.status(400).json({
         message: "User already exists!",
-      });
+      })
     }
 
     //for organizer
-    const generateId = () => {
+    const generateOrganizerId = () => {
       const timestamp = Date.now().toString();
       const randomString = Math.random().toString(36).substring(2, 8);
-      return `ORG-${timestamp}-${randomString}`;
-    };
+      return `ORG-${timestamp}-${randomString}`
+    }
 
     //for donor
-    const generateuserId = () => {
+    const generateUserId = () => {
       const timestamp = Date.now().toString();
       const randomString = Math.random().toString(36).substring(2, 8);
-      return `USR-${timestamp}-${randomString}`;
-    };
+      return `USR-${timestamp}-${randomString}`
+    }
 
     const uniqueId =
       role.toLowerCase() === "organizer"
-        ? generateId()
-        : generateuserId();
+        ? generateOrganizerId()
+        : generateUserId()
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(password, 12)
 
     const newUser = new Users({
       firstName,
@@ -46,15 +46,15 @@ const createUser = async (req, res) => {
       password: hashedPassword,
       role,
       uniqueId,
-    });
+    })
 
     await newUser.save();
-    await registrationEmail(email);
+    await registrationEmail(email)
 
     return res.status(201).json({
       message: "Account created successfully!",
       user: newUser,
-    });
+    })
   } catch (error) {
     return res.status(500).json({ error: "An error occurred!" });
   }
